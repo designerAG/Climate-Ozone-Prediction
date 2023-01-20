@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="keyword" content="UV index, climate change, ozone hole">
+<meta name="author" content="group 337 2023">
+<meta name="description" content="this project aims to predict the severity of climate change by measuring the ozone hole through UV index">
+<title> Climate change severity predictor </title>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+
+<!--the google charts codes-->
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="module">
+	
+	// Import the functions you need from the SDKs you need
+	import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+	import { getDatabase, onChildAdded, get, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+	// TODO: Add SDKs for Firebase products that you want to use
+	// https://firebase.google.com/docs/web/setup#available-libraries
+
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	apiKey: "AIzaSyCafcJLompF9-MRtSopHAHDcXP22tPVg8E",
+	authDomain: "cap-337-webapp.firebaseapp.com",
+	databaseURL: "https://cap-337-webapp-default-rtdb.firebaseio.com",
+	projectId: "cap-337-webapp",
+	storageBucket: "cap-337-webapp.appspot.com",
+	messagingSenderId: "1072028196596",
+	appId: "1:1072028196596:web:330a25f101fdc79f3bc8a1"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app, "https://cap-337-webapp-default-rtdb.firebaseio.com");
+	const parent = ref(db, "/UsersData/a3XTL1rQjVbigBPdgYoy4hIygmV2/readings");
+	
+	google.charts.load('current', {packages: ['corechart', 'line']});
+	google.charts.setOnLoadCallback(drawUV);
+	google.charts.setOnLoadCallback(drawCo2);
+	google.charts.setOnLoadCallback(drawOzoneUV);
+	google.charts.setOnLoadCallback(drawOzoneTemp);
+	google.charts.setOnLoadCallback(drawCo2Temp);
+	google.charts.setOnLoadCallback(drawMean);
+
+	function drawUV() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Time');
+      data.addColumn('number', 'UVI');
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'UVI'
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('uv_chart'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		console.log(snap.toJSON());
+		var dateObj = new Date();
+		console.log(dateObj.toLocaleTimeString());
+		data.addRow([dateObj.toLocaleTimeString(), parseInt(snap.toJSON()["UVI"])]);
+		document.getElementById("uvi").textContent = snap.toJSON()["UVI"];
+		chart.draw(data, options);
+	  });
+    }
+	
+	function drawCo2() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Time');
+      data.addColumn('number', 'CO2 level');
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'CO2 level'
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('co2_chart'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		var dateObj = new Date();
+		data.addRow([dateObj.toLocaleTimeString(), parseFloat(snap.toJSON()["CO2"])]);
+		document.getElementById("ccd").textContent = snap.toJSON()["CO2"];
+
+		chart.draw(data, options);
+	  });
+    }
+	
+	function drawOzoneUV() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'UVI');
+      data.addColumn('number', 'Ozone');
+      var options = {
+        hAxis: {
+          title: 'UVI'
+        },
+        vAxis: {
+          title: 'Ozone'
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+
+      var chart = new google.visualization.ScatterChart(document.getElementById('ozone_uv'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		data.addRow([parseInt(snap.toJSON()["UVI"]), parseFloat(snap.toJSON()["Ozone"])]);
+		document.getElementById("ozone_from").textContent = snap.toJSON()["Ozone"];
+
+		chart.draw(data, options);
+	  });
+    }
+	
+	function drawOzoneTemp() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Ozone');
+      data.addColumn('number', 'Temperature');
+      var options = {
+        hAxis: {
+          title: 'Ozone'
+        },
+        vAxis: {
+          title: 'Temperature',
+		  titleTextStyle: {italic: false}
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+
+      var chart = new google.visualization.ScatterChart(document.getElementById('ozone_temp'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		data.addRow([parseInt(snap.toJSON()["Ozone"]), parseFloat(snap.toJSON()["TempOzone"])]);
+		
+		chart.draw(data, options);
+	  });
+    }
+	
+	function drawCo2Temp() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'CO2');
+      data.addColumn('number', 'Temperature');
+      var options = {
+        hAxis: {
+          title: 'CO2 level'
+        },
+        vAxis: {
+          title: 'Temperature',
+		  titleTextStyle: {italic: false}
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+
+      var chart = new google.visualization.ScatterChart(document.getElementById('co2_temp'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		data.addRow([parseInt(snap.toJSON()["CO2"]), parseFloat(snap.toJSON()["TempCO2"])]);
+		
+		chart.draw(data, options);
+	  });
+    }
+	
+	function drawMean() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Time');
+      data.addColumn('number', 'Temperature');
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Temperature',
+		  titleTextStyle: {italic: false}
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: "top"}
+      };
+	  data.addRows([["1990", 0],
+					["1995", 0.1],
+					["2000", 0.16],
+					["2005", 0.29],
+					["2010", 0.42],
+					["2015", 0.56],
+					["2020", 0.67],
+					["2023", 0],
+					["2025", 0.75],
+					["2030", 0.92],
+					["2035", 1],
+					["2040", 1.2],
+					["2045", 1.4],
+					["2050", 1.7],
+					["2055", 2.1],
+					["2060", 2.5],
+					["2065", 2.8],
+					["2070", 3.2],
+					["2075", 3.4],
+					["2080", 3.7],
+					["2085", 3.9],
+					["2090", 4.1],
+					["2095", 4.3],
+					["2100", 4.4]
+					
+	  ]);
+
+      var chart = new google.visualization.LineChart(document.getElementById('temperature'));
+      chart.draw(data, options);
+	  onChildAdded(parent,(snap)=>{
+		data.setCell(/*Row index*/ 7,1, snap.toJSON()["TempMean"]);
+		document.getElementById("GM").textContent = snap.toJSON()["TempMean"];
+
+		chart.draw(data, options);
+	  });
+    }
+	
+    </script>
+
+
+</head>
+
+<body>
+<div class="main">
+<!--this is the project title. yet to be adjusted -->
+<h1>Climate change predictor from Ozone hole estimation</h1>
+<br/><br/><br/>
+<!--collected data are represented here -->
+<div class="data_container">
+	<b><p class="data"> UVI: <span id="uvi"> </span> </p>
+	<p class="data"> Ozone: <span id="ozone_from">  </span> </p>
+	<p class="data"> Carbon dioxide: <span id="ccd">  </span> </p>
+	<p class="data"> Global mean temperature: <span id="GM">  </span> </p></b>
+
+</div>
+
+<!-- the graph with the results are reperesented here -->
+	<div class="graphs">
+		<div class="gspace">
+			<div id="uv_chart" class="chart"></div>
+		</div>
+		<div class="gspace">
+			<div id="co2_chart" class="chart"></div>
+		</div>
+		<div class="gspace">
+			<div id="ozone_uv" class="chart"></div>
+		</div>
+		<div class="gspace">
+			<div id="ozone_temp" class="chart"></div>
+		</div>
+		<div class="gspace">
+			<div id="co2_temp" class="chart"></div>
+		</div>
+		<div class="gspace">
+			<div id="temperature" class="chart"></div>
+		</div>
+	</div>
+</div>
+<footer>
+This project was made by group 337 as the capstone project for 2023
+<br>
+All &reg; rights reserved
+</footer>
+
+    
+
+
+</body>
+
+</html>

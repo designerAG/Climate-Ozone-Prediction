@@ -1,0 +1,64 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background: #00c9c9; /* For browsers that do not support gradients */
+    background: -webkit-radial-gradient(circle, blue, #d900e0, green); /* Safari */
+    background: -o-radial-gradient(circle, blue, #d900e0, green); /* Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(circle, blue, #d900e0, green); /* Firefox 3.6 to 15 */
+    background: radial-gradient(circle, blue, #d900e0, green); /* Standard syntax */
+	/*put the image name and extension between the two '' ex: url('background.png')
+	  please save the image in the same folder as the html and css files*/
+	/*
+	background-image: url('image.png');
+	background-repeat: no-repeat;
+	*/
+}
+.main {
+	background: rgb(255,255,255, 0.8);
+	padding: 20px;
+	height: 100%;
+	
+}
+h1{
+	text-align: center;
+	color: #b50094;
+	font-size: 40px;
+}
+.data_container {
+	margin: auto;
+	padding: 15px;
+}
+p{
+	font-size: 20px;
+}
+#uvi, #ozone_from, #ozone_to, #ccd {
+	color: black;
+}
+.graphs {
+	display: grid;
+	grid-gap: 20px;
+	grid-template-columns: auto auto;
+	justify-content: center;
+}
+
+.gspace {
+  background-color: white;
+  /*visibility: hidden;*/
+  margin: auto;	
+  padding: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+footer {
+	background-color: black;
+	color: white;
+	text-align: center;
+	font-size: 15px;
+	padding: 20px;
+}
+.chart
+{
+	width: 45vw;
+	height: 30vw;
+}
