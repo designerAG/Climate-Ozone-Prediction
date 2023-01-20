@@ -195,7 +195,6 @@
 					["2010", 0.42],
 					["2015", 0.56],
 					["2020", 0.67],
-					["2023", 0],
 					["2025", 0.75],
 					["2030", 0.92],
 					["2035", 1],
@@ -218,7 +217,6 @@
       var chart = new google.visualization.LineChart(document.getElementById('temperature'));
       chart.draw(data, options);
 	  onChildAdded(parent,(snap)=>{
-		data.setCell(/*Row index*/ 7,1, snap.toJSON()["TempMean"]);
 		document.getElementById("GM").textContent = snap.toJSON()["TempMean"].toString();
 
 		chart.draw(data, options);
