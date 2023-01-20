@@ -219,7 +219,7 @@
       chart.draw(data, options);
 	  onChildAdded(parent,(snap)=>{
 		data.setCell(/*Row index*/ 7,1, snap.toJSON()["TempMean"]);
-		document.getElementById("GM").textContent = snap.toJSON()["TempMean"];
+		document.getElementById("GM").textContent = snap.toJSON()["TempMean"].toString();
 
 		chart.draw(data, options);
 	  });
