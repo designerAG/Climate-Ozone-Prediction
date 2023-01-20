@@ -117,7 +117,7 @@
       chart.draw(data, options);
 	  onChildAdded(parent,(snap)=>{
 		data.addRow([parseInt(snap.toJSON()["UVI"]), parseFloat(snap.toJSON()["Ozone"])]);
-		document.getElementById("ozone_from").textContent = snap.toJSON()["Ozone"];
+		document.getElementById("ozone_from").textContent = snap.toJSON()["Ozone"].toString();
 
 		chart.draw(data, options);
 	  });
