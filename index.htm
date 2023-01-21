@@ -214,7 +214,7 @@
 					
 	  ]);
 
-      var chart = new google.visualization.LineChart(document.getElementById('temperature (C)'));
+      var chart = new google.visualization.LineChart(document.getElementById('temperature'));
       chart.draw(data, options);
 	  onChildAdded(parent,(snap)=>{
 		document.getElementById("GM").textContent = snap.toJSON()["TempMean"].toString();
