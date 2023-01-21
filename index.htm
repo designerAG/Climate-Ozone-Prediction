@@ -75,7 +75,7 @@
 	function drawCo2() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Time');
-      data.addColumn('number', 'CO2 level');
+      data.addColumn('number', 'CO2 level (ppm)');
       var options = {
         hAxis: {
           title: 'Time'
@@ -101,7 +101,7 @@
 	function drawOzoneUV() {
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'UVI');
-      data.addColumn('number', 'Ozone');
+      data.addColumn('number', 'Ozone (DU)');
       var options = {
         hAxis: {
           title: 'UVI'
@@ -125,8 +125,8 @@
 	
 	function drawOzoneTemp() {
       var data = new google.visualization.DataTable();
-      data.addColumn('number', 'Ozone');
-      data.addColumn('number', 'Temperature');
+      data.addColumn('number', 'Ozone (DU)');
+      data.addColumn('number', 'Temperature (C)');
       var options = {
         hAxis: {
           title: 'Ozone'
@@ -150,8 +150,8 @@
 	
 	function drawCo2Temp() {
       var data = new google.visualization.DataTable();
-      data.addColumn('number', 'CO2');
-      data.addColumn('number', 'Temperature');
+      data.addColumn('number', 'CO2 (ppm)');
+      data.addColumn('number', 'Temperature (C)');
       var options = {
         hAxis: {
           title: 'CO2 level'
@@ -176,7 +176,7 @@
 	function drawMean() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Time');
-      data.addColumn('number', 'Temperature');
+      data.addColumn('number', 'Temperature (C)');
       var options = {
         hAxis: {
           title: 'Time'
@@ -214,7 +214,7 @@
 					
 	  ]);
 
-      var chart = new google.visualization.LineChart(document.getElementById('temperature'));
+      var chart = new google.visualization.LineChart(document.getElementById('temperature (C)'));
       chart.draw(data, options);
 	  onChildAdded(parent,(snap)=>{
 		document.getElementById("GM").textContent = snap.toJSON()["TempMean"].toString();
